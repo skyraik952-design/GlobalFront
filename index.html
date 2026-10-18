@@ -87,7 +87,7 @@ function plFromDB(x0,x1,s,n,cls){if(!PLDB)return[];const y0=-my(n),y1=-my(s),out
 for(let i=0;i<PLDB.N;i++){const x=PLDB.x[i],y=PLDB.y[i];if(x<x0||x>x1||y<y0||y>y1)continue;if(cls&&!cls.includes(PLDB.t[i]))continue;out.push({n:PLDB.n[i],t:PLT[PLDB.t[i]]||'hamlet',x,y,lat:(2*Math.atan(Math.exp(-y*D))-Math.PI/2)/D,pop:PLP[PLDB.p[i]]})}return out}
 let UAp=path(UA),RUp=path(RU),CRp=null,ALL,OCL,RS,GS;const SEAS=[BL,BS,AZ,CS].map(path),OCp=path(OC),CRh=path(CR);OCL=[OCp];RUp.addPath(path(KA));
 const mkAll=(h,g)=>{ALL=new Path2D;ALL.addPath(UAp);ALL.addPath(RUp);CRp&&ALL.addPath(CRp);RS=new Path2D;RS.addPath(RUp);h&&RS.addPath(CRh);GS=new Path2D;GS.addPath(UAp);g&&GS.addPath(CRh)};mkAll();
-const TR='#8c2a33',RED='#c8312b',BLU='#3b78c4',GRN='#2fbf6b',CYN='#35b8ff',X0=19,X1=63,S=104,yT=-my(62),yB=-my(40),W=Math.round((X1-X0)*S),H=Math.round((yB-yT)*S);
+const TR='#8c2a33',RED='#c8312b',BLU='#3b78c4',GRN='#2fbf6b',CYN='#35b8ff',X0=19,X1=63,S=52,yT=-my(62),yB=-my(40),W=Math.round((X1-X0)*S),H=Math.round((yB-yT)*S);
 const cv=$('c'),g0=cv.getContext('2d'),dpr=Math.min(devicePixelRatio||1,1.5),tc=mk(1,1).getContext('2d');let g=g0;
 const N=W*H;let Rg=new Uint8Array(N),Bg=new Uint8Array(N),Gg=new Uint8Array(N),UAm=null,RUm=null,ALm=null;const R1g=new Uint8Array(N),B1g=new Uint8Array(N),G1g=new Uint8Array(N);
 const T=c=>c.setTransform(S,0,0,S,-X0*S,-yT*S);
@@ -116,30 +116,26 @@ function toast(t){const e=$('toast');e.textContent=t;e.classList.add('s');clearT
 function draw(){g=g0;const k=v.k,w=cv.width,h=cv.height,SEA='#0b2740';if(!SAT)SAT=mkSat();const now=performance.now();lab&&schedL();
 for(let i=jobs.length-1;i>=0;i--){const j=jobs[i];j.u=Math.min(1,(now-j.t)/j.d);if(j.u>=1){applyJob(j);jobs.splice(i,1);fin(j)}}
 if(jobs.length){rq();if(now-lastS>1200){lastS=now;stats()}}
-hud(now);tickD(now);if(ovd&&!jobs.length){buildC();ovd=0}
+hud(now);tickD(now);if(ovd&&!jobs.length){ovd=0;FRD=1}const vkk=v.x+','+v.y+','+k;if(vkk!=LVK){LVK=vkk;LVT=now}if(!jobs.length&&(FRD||frontStale())&&now-LVT>160)buildFront();
 const T0=[k,0,0,k,w/2-v.x*k,h/2-v.y*k],A=(j,a,b)=>[j.o0[0]+j.dir[0]*a+j.pe[0]*b,j.o0[1]+j.dir[1]*a+j.pe[1]*b];
 const ck=[v.x,v.y,k,w,h,base,lab,bdr,gzOn,$('gn').value,$('gb').value,good,LBL.items.length,LBL.lv,!!BP,bv,jobs.length>0].join();
 if(ck!=CK){CK=ck;[BC,LC,OVJ].forEach(c=>{if(c.width!=w||c.height!=h){c.width=w;c.height=h}});if(OVS.width!=w||OVS.height!=h){OVS.width=w;OVS.height=h}
 g=BC.getContext('2d');g.setTransform(1,0,0,1,0,0);g.fillStyle=SEA;g.fillRect(0,0,w,h);g.setTransform(...T0);g.imageSmoothingEnabled=true;
 g.drawImage(SAT,X0,yT,W/S,H/S);g.fillStyle=SEA;SEAS.forEach(p=>g.fill(p));
 g.save();g.clip(ALL,'evenodd');g.drawImage(SAT,X0,yT,W/S,H/S);g.restore();tiles(k,w,h);
-o2.setTransform(1,0,0,1,0,0);o2.clearRect(0,0,w,h);o2.setTransform(...T0);o2.save();o2.clip(ALL,'evenodd');
-o2.fillStyle=TR;o2.fill(RUp,'evenodd');RDb&&o2.fill(RDb,'evenodd');o2.fillStyle=CYN;BLb&&o2.fill(BLb,'evenodd');o2.fillStyle=GRN;GNb&&o2.fill(GNb,'evenodd');OPS.forEach(op=>drawOp(o2,op));o2.restore();
+o2.setTransform(1,0,0,1,0,0);o2.clearRect(0,0,w,h);paintOverlays(o2,T0,w,h);
 g=LC.getContext('2d');g.setTransform(1,0,0,1,0,0);g.clearRect(0,0,w,h);g.setTransform(...T0);
-bdr&&BP&&drawB(k);
 if(FRp&&!jobs.length&&k<14000&&gzOn){const lat=latOf(v.y),kw=q=>Math.max(q/kmL(lat),2*dpr/k);
-if(GZc.width!=w||GZc.height!=h){GZc.width=w;GZc.height=h;GMc.width=w;GMc.height=h}
-const z=GZc.getContext('2d'),mm=GMc.getContext('2d');
-z.setTransform(1,0,0,1,0,0);z.globalCompositeOperation='source-over';z.clearRect(0,0,w,h);z.setTransform(...T0);z.save();z.clip(UAp,'evenodd');z.lineCap='butt';z.lineJoin='round';
+if(GZc.width!=w||GZc.height!=h){GZc.width=w;GZc.height=h}
+const z=GZc.getContext('2d');
+z.setTransform(1,0,0,1,0,0);z.clearRect(0,0,w,h);z.setTransform(...T0);z.save();z.clip(ALL,'evenodd');z.lineCap='butt';z.lineJoin='round';
+// серая зона рисуется по обе стороны линии фронта (и со стороны РФ, и со стороны Украины), обрезается только по суше
 z.strokeStyle='rgba(205,210,222,.20)';z.lineWidth=2*kw(+$('gb').value);z.stroke(FRp);z.strokeStyle='rgba(205,210,222,.45)';z.lineWidth=2*kw(+$('gn').value);z.stroke(FRp);z.restore();
-// серая зона остаётся только на оккупированной (красной) стороне линии фронта: освобождённая территория серой не становится,
-// а там, где рядом нет оккупированных земель, серая зона пропадает
-mm.setTransform(1,0,0,1,0,0);mm.clearRect(0,0,w,h);mm.setTransform(...T0);redDisp(mm,0);
-z.setTransform(1,0,0,1,0,0);z.globalCompositeOperation='destination-in';z.drawImage(GMc,0,0);z.globalCompositeOperation='source-over';
 g.save();g.setTransform(1,0,0,1,0,0);g.drawImage(GZc,0,0);g.restore()}
 g.lineWidth=1*dpr/k;g.strokeStyle='rgba(170,176,190,.35)';g.stroke(UAp);g.stroke(RUp);CRp&&g.stroke(CRp);
 // линия фронта рисуется всегда (даже с выключенной серой зоной): тёмная подложка + светлый штрих
 if(FRp&&!jobs.length){g.lineCap='round';g.lineJoin='round';g.lineWidth=2.6*dpr/k;g.strokeStyle='rgba(15,18,24,.5)';g.stroke(FRp);g.lineWidth=1.3*dpr/k;g.strokeStyle='rgba(232,235,242,.9)';g.stroke(FRp);g.lineCap='butt'}
+bdr&&BP&&drawB(k);
 g.setTransform(1,0,0,1,0,0);g.font=`${11*dpr}px system-ui,sans-serif`;g.textAlign='center';g.lineJoin='round';g.lineWidth=3*dpr;g.strokeStyle='rgba(0,0,0,.7)';
 lab&&LBL.items.length&&drawL(w,h,k);(!lab||!LBL.items.length)&&LB.forEach(([t,x,y,f])=>{const sx=(x-v.x)*k+w/2,sy=(-my(y)-v.y)*k+h/2;if(sx<0||sy<0||sx>w||sy>h)return;if(t!='Киев'&&t!='Москва')return;
 if(!f){g.beginPath();g.arc(sx,sy,2.5*dpr,0,7);g.fillStyle='#fff';g.fill()}
@@ -150,14 +146,12 @@ if(jobs.length){const oj=OVJ.getContext('2d'),jl=JL.getContext('2d');if(JL.width
 oj.setTransform(1,0,0,1,0,0);oj.clearRect(0,0,w,h);oj.drawImage(OVS,0,0);oj.setTransform(...T0);
 jobs.forEach(j=>{revealUpdate(j);jl.setTransform(1,0,0,1,0,0);jl.globalCompositeOperation='source-over';jl.clearRect(0,0,w,h);jl.setTransform(...T0);
 const ua=j.side=='ua',col=ua?(j.nf?GRN:CYN):TR;jl.fillStyle=jl.strokeStyle=col;jl.fill(j.pp);if(j.thin){jl.lineWidth=j.w;jl.lineJoin=jl.lineCap='round';jl.stroke(j.pp)}
-jl.globalCompositeOperation='destination-in';jl.imageSmoothingEnabled=true;jl.drawImage(j.rc,j.bx0,j.by0,j.bx1-j.bx0,j.by1-j.by0);if(ua&&j.cm)jl.drawImage(j.cm.cv,j.cm.x0,j.cm.y0,j.cm.w/j.cm.sc,j.cm.h/j.cm.sc);jl.globalCompositeOperation='source-over';
+jl.globalCompositeOperation='destination-in';jl.imageSmoothingEnabled=true;jl.drawImage(j.rc,j.bx0,j.by0,j.bx1-j.bx0,j.by1-j.by0);jl.globalCompositeOperation='source-over';
 oj.save();oj.clip(ALL,'evenodd');(j.side=='ru'||j.ru)||oj.clip(UAp,'evenodd');
 if(ua){oj.save();oj.clip(GS,'evenodd');oj.setTransform(1,0,0,1,0,0);oj.globalCompositeOperation='destination-out';oj.drawImage(JL,0,0);oj.restore()}
 oj.setTransform(1,0,0,1,0,0);oj.drawImage(JL,0,0);oj.restore()})}
 g.globalAlpha=.66;g.drawImage(jobs.length?OVJ:OVS,0,0);g.globalAlpha=1;g.drawImage(LC,0,0);g.setTransform(...T0);
-FL2=FL2.filter(f=>now-f.t<650);FL2.length&&rq();FL2.forEach(f=>{const q=(now-f.t)/650;g.save();g.globalAlpha=.5*(1-q)*(1-q);
-if(f.cm){if(!f.fc){const m=f.cm,t=mk(m.w,m.h),x=t.getContext('2d');x.setTransform(m.sc,0,0,m.sc,-m.x0*m.sc,-m.y0*m.sc);x.fillStyle='#bfeaff';((f.side=='ru'||f.ru)?[ALL]:[UAp,CRh]).forEach(q2=>{x.save();x.clip(q2,'evenodd');x.fill(f.pp);x.restore()});x.setTransform(1,0,0,1,0,0);x.globalCompositeOperation='destination-in';x.drawImage(m.cv,0,0);f.fc=t}g.drawImage(f.fc,f.cm.x0,f.cm.y0,f.cm.w/f.cm.sc,f.cm.h/f.cm.sc)}
-else{g.clip((f.side=='ru'||f.ru)?ALL:UAp,'evenodd');g.fillStyle=f.side=='ua'?'#bfeaff':'#ffb3ad';g.fill(f.pp)}g.restore()});
+FL2=FL2.filter(f=>now-f.t<650);FL2.length&&rq();FL2.forEach(f=>{const q=(now-f.t)/650;g.save();g.clip((f.side=='ru'||f.ru)?ALL:UAp,'evenodd');g.globalAlpha=.5*(1-q)*(1-q);g.fillStyle=f.side=='ua'?'#bfeaff':'#ffb3ad';g.fill(f.pp);g.restore()});
 // войска: часть идёт вперёд вместе с фронтом, часть стоит на месте
 jobs.forEach(j=>{const f=j.s0+j.u*(j.s1-j.s0),col=j.side=='ua'?'#4fc3f7':'#ff6a5f',sz=6*dpr/k;g.save();g.clip(j.pp);g.clip(ALL,'evenodd');
 g.strokeStyle='#fff';g.lineWidth=2*dpr/k;g.setLineDash([8*dpr/k,5*dpr/k]);g.lineDashOffset=-now/40*dpr/k;g.beginPath();(j.fp||[]).forEach((p,i)=>i?g.lineTo(p[0],p[1]):g.moveTo(p[0],p[1]));g.stroke();g.setLineDash([]);
@@ -198,7 +192,7 @@ un:Array.from({length:Math.max(10,Math.min(36,Math.round(A0/150)))},(_,i)=>({s:M
 makeReveal(j);j.a0=[area(Rg,UAm),(area(Bg,RUm)+area(Gg,RUm))];{let bx0=1e9,by0=1e9,bx1=-1e9,by1=-1e9;P2.forEach(p=>{if(p[0]<bx0)bx0=p[0];if(p[0]>bx1)bx1=p[0];if(p[1]<by0)by0=p[1];if(p[1]>by1)by1=p[1]});j.bb=[bx0-.01,by0-.01,bx1+.01,by1+.01]}j.m0=redGrid(j.bb);if(j.side=='ua'){j.cm=capMask(j);if(!capAny(j.cm)){j.m0=j.cm=null;toast('Здесь нет территории РФ — отбивать нечего');return}}j.plP=places(j);jobs.push(j);rq()}
 let DRM=null;
 function applyJob(j){const ua=j.side=='ua';if(ua&&!j.m0){let bx0=1e9,by0=1e9,bx1=-1e9,by1=-1e9;j.P.forEach(p=>{if(p[0]<bx0)bx0=p[0];if(p[0]>bx1)bx1=p[0];if(p[1]<by0)by0=p[1];if(p[1]>by1)by1=p[1]});j.m0=redGrid([bx0-.01,by0-.01,bx1+.01,by1+.01])}
-if(ua&&!j.cm)j.cm=capMask(j);const nop={side:j.side,ru:j.ru,P:j.P,pp:j.pp,thin:j.thin,w:j.w,st:j.nf?'g':'b'};if(ua)nop.cm=j.cm;OPS.push(nop);UNDO=1;DRM=null;FL2.push({pp:j.pp,side:j.side,ru:j.ru,cm:ua?j.cm:null,t:performance.now()});const allow=(j.side=='ru'||j.ru)?ALm:UAm;let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9;
+if(ua&&!j.cm)j.cm=capMask(j);const nop={side:j.side,ru:j.ru,P:j.P,pp:j.pp,thin:j.thin,w:j.w,st:j.nf?'g':'b'};if(ua)nop.cm=j.cm;OPS.push(nop);UNDO=1;DRM=null;FL2.push({pp:j.pp,side:j.side,ru:j.ru,t:performance.now()});const allow=(j.side=='ru'||j.ru)?ALm:UAm;let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9;
 j.P.forEach(p=>{const px=(p[0]-X0)*S,py=(p[1]-yT)*S;x0=Math.min(x0,px);x1=Math.max(x1,px);y0=Math.min(y0,py);y1=Math.max(y1,py)});
 x0=Math.max(0,Math.floor(x0)-2);y0=Math.max(0,Math.floor(y0)-2);x1=Math.min(W-1,Math.ceil(x1)+2);y1=Math.min(H-1,Math.ceil(y1)+2);const bw=x1-x0+1,bh=y1-y0+1;if(bw<1||bh<1)return;
 // клетка захватывается, если фигура или её обводка (в 1,2 клетки) хоть чуть-чуть её касается: мелкие фигуры не пропадают и не укорачиваются
@@ -215,7 +209,7 @@ function initRasters(){const rast=f=>{const c=mk(W,H),x=c.getContext('2d');T(x);
 Rg=rast(c=>{c.clip(ALL,'evenodd');c.fill(RUp,'evenodd');OCL.forEach(p=>c.fill(p,'evenodd'))});Bg=new Uint8Array(N);Gg=new Uint8Array(N);
 UAm=rast(c=>{c.fill(UAp,'evenodd');c.fill(CRh)});RUm=rast(c=>c.fill(RUp,'evenodd'));ALm=rast(c=>c.fill(ALL,'evenodd'));
 }
-function init(){initRasters();n0=area(UAm,UAm);p0=0;stats();snap();jobs=[];OPS=[];UNDO=0;FL2=[];fld=1;DRM=null;baseSnap();rq()}
+function init(){initRasters();n0=area(UAm,UAm);p0=0;stats();snap();jobs=[];OPS=[];UNDO=0;FL2=[];fld=1;DRM=null;baseImg=null;ovd=1;rq()}
 function zoom(f,x,y){const wb=s2w(x,y),nk=Math.min(Math.max(v.k*f,kmin()),KMAX());if(f>1)ZF=wb;v.k=nk;v.x=wb[0]-(x-cv.width/2)/nk;v.y=wb[1]-(y-cv.height/2)/nk;clamp();rq()}
 const pi=()=>{const[a,b]=[...P.values()];return{d:Math.hypot(a[0]-b[0],a[1]-b[1])||1,m:[(a[0]+b[0])/2,(a[1]+b[1])/2]}};
 cv.onpointerdown=e=>{cv.setPointerCapture(e.pointerId);P.set(e.pointerId,sp(e));
@@ -347,8 +341,7 @@ if(dup)return;a.push([p.x,p.y]);seen.set(p.n,a);const kk=gx+':'+gy;let c2=grid.g
 if(tc.isPointInPath(ALL,p.x,p.y,'evenodd'))out.push(p)});
 const rk={city:0,town:1,village:2,hamlet:3,locality:4,isolated_dwelling:5};out.sort((a,b)=>(rk[a.t]??6)-(rk[b.t]??6));return out}catch(e){return await placesT(j)}}
 // «Красное как на экране»: маска из тех же слоёв, что рисуются (база + точные фигуры). Нужна и для серой зоны, и для определения смены контроля над пунктами
-function redDisp(m,ru){m.save();m.clip(ALL,'evenodd');m.fillStyle='#000';ru&&m.fill(RUp,'evenodd');RDb&&m.fill(RDb,'evenodd');m.globalCompositeOperation='destination-out';BLb&&m.fill(BLb,'evenodd');GNb&&m.fill(GNb,'evenodd');
-OPS.forEach(op=>{const rd=op.side=='ru',cl=(rd||op.ru)?[ALL]:[UAp,CRh];m.globalCompositeOperation=rd?'source-over':'destination-out';cl.forEach(q=>{m.save();m.clip(q,'evenodd');m.fillStyle=m.strokeStyle='#000';m.fill(op.pp);if(op.thin){m.lineWidth=op.w;m.lineJoin=m.lineCap='round';m.stroke(op.pp)}m.restore()})});m.restore()}
+function redDisp(m,ru){paintRedMask(m)}
 function redGrid(b){const ex=Math.max(b[2]-b[0],b[3]-b[1],1e-4),sc=Math.min(4000,1400/ex),w=Math.max(2,Math.ceil((b[2]-b[0])*sc)),h=Math.max(2,Math.ceil((b[3]-b[1])*sc)),c2=mk(w,h),x=c2.getContext('2d');x.setTransform(sc,0,0,sc,-b[0]*sc,-b[1]*sc);redDisp(x,1);
 const d=x.getImageData(0,0,w,h).data,a=new Uint8Array(w*h);for(let i=0;i<a.length;i++)a[i]=d[i*4+3]>=128?1:0;return{a,w,h,x0:b[0],y0:b[1],sc,cv:c2}}
 // Маска отбития для Украины: обведённое ∩ разрешённая зона ∩ то, что сейчас реально красное на экране
@@ -440,15 +433,15 @@ if(bx.some(r=>x0<r[0]+r[2]&&x0+tw>r[0]&&y0<r[1]+r[3]&&y0+fs>r[1]))continue;bx.pu
 g.globalAlpha=a.al;if(a.t!='river'){g.beginPath();g.arc(a.sx,a.sy,(a.cap?3.5:a.tier==1?3:a.tier==2?2.5:2)*dpr,0,7);g.fillStyle='#fff';g.fill()}
 g.fillStyle=a.t=='river'?'#9fd8ff':a.tier<=1?'#fff':a.tier==2?'#f2f2f2':'#ddd';g.strokeText(a.n,a.sx,ty);g.fillText(a.n,a.sx,ty);g.globalAlpha=1;if(++c>2000)break}}
 const loadScript=u=>new Promise(r=>{const e=document.createElement('script');e.src=u;e.onload=()=>r(1);e.onerror=()=>r(0);document.head.appendChild(e)});
-async function loadBorders(){const P2=new Path2D;let ok=0;for(const f of ['ukraineHigh','russiaHigh']){if(!await loadScript('https://cdn.jsdelivr.net/npm/@amcharts/amcharts4-geodata@4/'+f+'.js'))continue;
+async function loadBorders(){const P2=new Path2D;let ok=0;for(const f of ['ukraineHigh','russiaLow']){if(!await loadScript('https://cdn.jsdelivr.net/npm/@amcharts/amcharts4-geodata@4/'+f+'.js'))continue;
 const key=Object.keys(window).find(x=>x.toLowerCase()=='am4geodata_'+f.toLowerCase());if(key&&window[key].features){window[key].features.forEach(ft=>gj(ft.geometry,P2));ok=1}}if(ok)BP=P2;rq()}
-function drawB(k){g.save();g.lineJoin='round';g.lineWidth=dpr/k;g.strokeStyle='rgba(205,208,214,.6)';g.setLineDash([4.5*dpr/k,3*dpr/k]);g.stroke(BP);g.restore()}
+function drawB(k){g.save();g.lineJoin='round';g.lineWidth=1.3*dpr/k;g.strokeStyle='rgba(205,208,214,.85)';g.setLineDash([7*dpr/k,5*dpr/k]);g.stroke(BP);g.restore()}
 addEventListener('keydown',e=>{if(e.target.tagName=='INPUT')return;const d={a:[-1,0],d:[1,0],w:[0,-1],s:[0,1],arrowleft:[-1,0],arrowright:[1,0],arrowup:[0,-1],arrowdown:[0,1]}[e.key.toLowerCase()];if(d){ZF=null;v.x+=d[0]*cv.width/v.k*.15;v.y+=d[1]*cv.height/v.k*.15;clamp();rq()}});
-// ---- Контуры владения: клетки ~1 км (104 на градус), границы сглаживаются — линия фронта идёт ровно по захваченному
-let RDp=null,BLp=null,GNp=null,FRp=null,NRp=null,RDb=null,BLb=null,GNb=null,OPS=[],UNDO=0,FL2=[],CK='',bv=0;const GZc=mk(1,1),GMc=mk(1,1),OVS=mk(1,1),o2=OVS.getContext('2d'),BC=mk(1,1),LC=mk(1,1),OVJ=mk(1,1),JL=mk(1,1),f1=x=>x.toLocaleString('ru',{minimumFractionDigits:1,maximumFractionDigits:1});
+// ---- Контуры владения: клетки 2 км, границы — прямые линии по сетке (квадратные), без сглаживания и без сокращения фигур
+let RDp=null,BLp=null,GNp=null,FRp=null,NRp=null,RDb=null,BLb=null,GNb=null,OPS=[],UNDO=0,FL2=[],CK='',bv=0,FRD=1,baseImg=null,LVK='',LVT=0;const FRC={cv:mk(1,1),k:0,x0:0,y0:0,x1:0,y1:0},MC=mk(1,1),T2C=mk(1,1),GZc=mk(1,1),GMc=mk(1,1),OVS=mk(1,1),o2=OVS.getContext('2d'),BC=mk(1,1),LC=mk(1,1),OVJ=mk(1,1),JL=mk(1,1),f1=x=>x.toLocaleString('ru',{minimumFractionDigits:1,maximumFractionDigits:1});
 function arr2url(a){const c=mk(W,H),x=c.getContext('2d'),im=x.createImageData(W,H),d=im.data;for(let i=0;i<N;i++)if(a[i])d[i*4+3]=255;x.putImageData(im,0,0);return c.toDataURL()}
 function url2arr(img){const c=mk(W,H),x=c.getContext('2d');x.drawImage(img,0,0,W,H);const d=x.getImageData(0,0,W,H).data,a=new Uint8Array(N);for(let i=0;i<N;i++)a[i]=d[i*4+3]>=128?1:0;return a}
-// Сглаженные контуры: маска -> лёгкое размытие -> marching squares -> Chaikin (тройной проход). Мелкая сетка + сглаживание = извилистые линии без лесенок.
+// Сглаженные контуры: маска -> лёгкое размытие -> marching squares -> Chaikin. Сетка остаётся 2 км, но линии уже не квадратные.
 // Считаем только окно вокруг Украины (быстро), у берегов и границ маска чуть выдвигается наружу, чтобы сглаживание не оставляло щелей
 const WX0=Math.max(0,Math.floor((21-X0)*S)),WX1=Math.min(W,Math.ceil((42.5-X0)*S)),WY0=Math.max(0,Math.floor((-my(53.7)-yT)*S)),WY1=Math.min(H,Math.ceil((-my(43.3)-yT)*S)),
 ww=WX1-WX0,wh=WY1-WY0,PW=ww+2,PH=wh+2,PN=PW*PH,TH=32,MA=new Uint8Array(ww*wh),TM=new Uint8Array(ww*wh),AW=new Uint8Array(ww*wh),BA=new Uint8Array(PN),BB=new Uint8Array(PN);
@@ -470,7 +463,7 @@ tl=tr;bl=br}}
 const fill=new Path2D,front=new Path2D,vis=new Set,fx0=21,fx1=42,fy0=-my(53.7),fy1=-my(43.3);
 for(const s of nb.keys()){if(vis.has(s))continue;let ring=[],cur=s,prev=-1;
 for(;;){vis.add(cur);ring.push(cpos(cur));const l=nb.get(cur),nx=l[0]===prev?l[1]:l[0];if(nx===undefined||vis.has(nx))break;prev=cur;cur=nx}
-if(ring.length<3)continue;ring=chk(chk(chk(ring)));
+if(ring.length<3)continue;ring=chk(chk(ring));
 ring.forEach(([x,y],i)=>i?fill.lineTo(x,y):fill.moveTo(x,y));fill.closePath();
 let on=0;ring.concat([ring[0]]).forEach(([x,y])=>{if(x>fx0&&x<fx1&&y>fy0&&y<fy1){on?front.lineTo(x,y):front.moveTo(x,y);on=1}else on=0})}
 return{fill,front}}
@@ -478,6 +471,59 @@ function buildC(){winMask(Rg,1);blurWin();const r=contours();RDp=r.fill;FRp=r.fr
 if(Bg.indexOf(1)>=0){winMask(Bg,0);blurWin();BLp=contours().fill}else BLp=null;if(Gg.indexOf(1)>=0){winMask(Gg,0);blurWin();GNp=contours().fill}else GNp=null;bv++;
 NRp=new Path2D;NRp.rect(-400,-700,800,1400);NRp.addPath(RDp)}
 function baseSnap(){buildC();RDb=RDp;BLb=BLp;GNb=GNp;ovd=0}
+const fillOp=(c,op)=>{c.fill(op.pp);if(op.thin){c.lineWidth=op.w;c.lineJoin=c.lineCap='round';c.stroke(op.pp)}};
+// Точная «красная» маска: строится векторно из обведённых фигур (без сетки 2 км) — граница ровно по росчерку
+function paintRedMask(x){x.save();x.clip(ALL,'evenodd');x.fillStyle=x.strokeStyle='#000';
+if(baseImg)x.drawImage(baseImg.r,X0,yT,W/S,H/S);else{x.fill(RUp,'evenodd');OCL.forEach(p=>x.fill(p,'evenodd'))}
+x.restore();for(const op of OPS){const rd=op.side=='ru',cl=(rd||op.ru)?[ALL]:[UAp,CRh];x.globalCompositeOperation=rd?'source-over':'destination-out';
+cl.forEach(q=>{x.save();x.clip(q,'evenodd');x.fillStyle=x.strokeStyle='#000';fillOp(x,op);x.restore()})}x.globalCompositeOperation='source-over'}
+// Цветная подложка: РФ+оккупированное — красным, отбитое — синим/зелёным. Всё векторно, без «мыльных» растровых пятен
+function paintOverlays(x,T0,w,h){x.setTransform(...T0);const m=MC.getContext('2d');if(MC.width!=w||MC.height!=h){MC.width=w;MC.height=h}
+m.setTransform(1,0,0,1,0,0);m.globalCompositeOperation='source-over';m.clearRect(0,0,w,h);m.setTransform(...T0);
+x.save();x.clip(ALL,'evenodd');m.save();m.clip(ALL,'evenodd');
+if(baseImg){x.drawImage(baseImg.c,X0,yT,W/S,H/S);m.drawImage(baseImg.r,X0,yT,W/S,H/S)}
+else{x.fillStyle=TR;x.fill(RUp,'evenodd');OCL.forEach(p=>x.fill(p,'evenodd'));m.fillStyle='#000';m.fill(RUp,'evenodd');OCL.forEach(p=>m.fill(p,'evenodd'))}
+x.restore();m.restore();
+for(const op of OPS){const rd=op.side=='ru',cl=(rd||op.ru)?[ALL]:[UAp,CRh];
+if(rd){cl.forEach(q=>{x.save();x.clip(q,'evenodd');x.fillStyle=x.strokeStyle=TR;fillOp(x,op);x.restore();m.save();m.clip(q,'evenodd');m.fillStyle=m.strokeStyle='#000';fillOp(m,op);m.restore()})}
+else{const t=T2C.getContext('2d');if(T2C.width!=w||T2C.height!=h){T2C.width=w;T2C.height=h}
+t.setTransform(1,0,0,1,0,0);t.globalCompositeOperation='source-over';t.clearRect(0,0,w,h);t.setTransform(...T0);
+cl.forEach(q=>{t.save();t.clip(q,'evenodd');t.fillStyle=t.strokeStyle=op.st=='g'?GRN:CYN;fillOp(t,op);t.restore()});
+t.setTransform(1,0,0,1,0,0);t.globalCompositeOperation='destination-in';t.drawImage(MC,0,0);
+x.setTransform(1,0,0,1,0,0);x.drawImage(T2C,0,0);x.setTransform(...T0);
+m.setTransform(1,0,0,1,0,0);m.globalCompositeOperation='destination-out';m.drawImage(T2C,0,0);m.globalCompositeOperation='source-over';m.setTransform(...T0)}}
+x.setTransform(1,0,0,1,0,0)}
+function frontStale(){if(!FRC.k)return 1;const k=v.k;if(Math.abs(Math.log(k/FRC.k))>Math.log(1.35))return 1;
+const w=cv.width,h=cv.height,x0=v.x-w/2/k,x1=v.x+w/2/k,y0=v.y-h/2/k,y1=v.y+h/2/k,mx=(FRC.x1-FRC.x0)*.12,mz=(FRC.y1-FRC.y0)*.12;
+return x0<FRC.x0+mx||x1>FRC.x1-mx||y0<FRC.y0+mz||y1>FRC.y1-mz}
+// Линия фронта: marching squares по векторной маске в разрешении экрана — повторяет росчерок с точностью до пикселя
+function buildFront(){const w=cv.width,h=cv.height,k=v.k;
+let x0=v.x-w/2/k,x1=v.x+w/2/k,y0=v.y-h/2/k,y1=v.y+h/2/k;const ex=(x1-x0)*.7,ey=(y1-y0)*.7;x0-=ex;x1+=ex;y0-=ey;y1+=ey;
+FRC.k=k;FRC.x0=x0;FRC.y0=y0;FRC.x1=x1;FRC.y1=y1;FRD=0;
+const cx0=Math.max(x0,20.5),cx1=Math.min(x1,43),cy0=Math.max(y0,-my(54.2)),cy1=Math.min(y1,-my(42.8));
+if(cx1<=cx0||cy1<=cy0){FRp=null;bv++;return}
+const sc=Math.min(k,2000/(cx1-cx0),2000/(cy1-cy0)),cw=Math.max(2,Math.ceil((cx1-cx0)*sc)),ch=Math.max(2,Math.ceil((cy1-cy0)*sc));
+FRC.cv.width=cw;FRC.cv.height=ch;const x=FRC.cv.getContext('2d');x.setTransform(sc,0,0,sc,-cx0*sc,-cy0*sc);
+paintRedMask(x);const d=x.getImageData(0,0,cw,ch).data;FRp=extrFront(d,cw,ch,cx0,cy0,sc);bv++}
+function extrFront(d,cw,ch,x0,y0,sc){const P2=cw+2,H2=ch+2,N2=P2*H2,F=new Uint8Array(N2);
+for(let j=0;j<H2;j++){const sj=j<1?0:j-1>ch-1?ch-1:j-1;for(let i=0;i<P2;i++){const si=i<1?0:i-1>cw-1?cw-1:i-1;F[j*P2+i]=d[(sj*cw+si)*4+3]}}
+const nb=new Map(),add=(a,b)=>{const r=nb.get(a);r?r.push(b):nb.set(a,[b])},seg=(a,b)=>{add(a,b);add(b,a)},TH=128;
+for(let py=0;py<H2-1;py++){const o=py*P2;let tl=F[o]>=TH?1:0,bl=F[o+P2]>=TH?1:0;
+for(let px=0;px<P2-1;px++){const tr=F[o+px+1]>=TH?1:0,br=F[o+P2+px+1]>=TH?1:0,c=tl*8+tr*4+br*2+bl;
+if(c&&c<15){const T=o+px,B=T+P2,L=N2+T,R=L+1;
+switch(c){case 1:case 14:seg(L,B);break;case 2:case 13:seg(B,R);break;case 3:case 12:seg(L,R);break;case 4:case 11:seg(T,R);break;case 6:case 9:seg(T,B);break;case 7:case 8:seg(T,L);break;
+default:{const cen=F[T]+F[T+1]+F[B]+F[B+1]>=4*TH;if(c==5){if(cen){seg(T,L);seg(B,R)}else{seg(T,R);seg(L,B)}}else{if(cen){seg(T,R);seg(L,B)}else{seg(T,L);seg(B,R)}}}}}
+tl=tr;bl=br}}
+const cpos=e=>{let px,py,a,b,t;if(e<N2){px=e%P2;py=(e/P2)|0;a=F[e];b=F[e+1];t=(TH-a)/(b-a);px+=t}else{e-=N2;px=e%P2;py=(e/P2)|0;a=F[e];b=F[e+P2];t=(TH-a)/(b-a);py+=t}return[x0+(px-1)/sc,y0+(py-1)/sc]},
+front=new Path2D,vis=new Set,fx0=21,fx1=42,fy0=-my(53.7),fy1=-my(43.3);
+for(const s of nb.keys()){if(vis.has(s))continue;let ring=[],cur=s,prev=-1,closed=0;
+for(;;){vis.add(cur);ring.push(cpos(cur));const l=nb.get(cur);if(!l)break;const nx=l[0]===prev?l[1]:l[0];if(nx===undefined)break;if(nx===s){closed=1;break}if(vis.has(nx))break;prev=cur;cur=nx}
+if(ring.length<3)continue;const rr=closed?ring.concat([ring[0]]):ring;let on=0;
+rr.forEach(([x,y])=>{if(x>fx0&&x<fx1&&y>fy0&&y<fy1){on?front.lineTo(x,y):front.moveTo(x,y);on=1}else on=0})}
+return front}
+function maskCv(a){const c=mk(W,H),x=c.getContext('2d'),im=x.createImageData(W,H),d=im.data;for(let i=0;i<N;i++)if(a[i])d[i*4+3]=255;x.putImageData(im,0,0);return c}
+function mkBaseImg(R,B,G){const tint=(mc,col)=>{const t=mk(W,H),q=t.getContext('2d');q.drawImage(mc,0,0);q.globalCompositeOperation='source-in';q.fillStyle=col;q.fillRect(0,0,W,H);return t},r=maskCv(R),c=mk(W,H),x=c.getContext('2d');
+x.drawImage(tint(r,TR),0,0);x.drawImage(tint(maskCv(B),CYN),0,0);x.drawImage(tint(maskCv(G),GRN),0,0);return{r,c}}
 const mkPP=P=>{const p=new Path2D;P.forEach(([x,y],i)=>i?p.lineTo(x,y):p.moveTo(x,y));p.closePath();return p};
 // Точные фигуры: обведённое хранится и рисуется векторно (без сетки и сглаживания) -> закрашивается ровно так, как нарисовано
 function drawOp(c,op){const col=op.side=='ru'?TR:(op.st=='g'?GRN:CYN),cl=(op.side=='ru'||op.ru)?[ALL]:[UAp,CRh];
@@ -510,8 +556,8 @@ const ser=()=>({v:1,R:arr2url(Rg),B:arr2url(Bg),GG:arr2url(Gg),O:OPS.map(o=>({s:
 function saveFile(){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(ser())],{type:'application/json'}));a.download='karta-voyny-'+new Date().toISOString().slice(0,16).replace('T','_').replace(':','-')+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),4000);toast('Карта сохранена в файл')}
 function saveSlot(i){try{localStorage.setItem('wm_slot'+i,JSON.stringify(ser()));toast('Сохранено в слот '+i)}catch(e){toast('Не удалось сохранить (нет места в браузере) — сохрани в файл')}openSheet('save')}
 async function loadState(o){if(!o||!o.R||!o.B)return toast('Это не файл сохранения');const im=u=>new Promise(r=>{const i=new Image();i.onload=()=>r(i);i.onerror=()=>r(null);i.src=u}),[a,b]=await Promise.all([im(o.R),im(o.B)]);if(!a||!b)return toast('Файл повреждён');
-if(o.O){initRasters();baseSnap();OPS=[];o.O.forEach(q=>applyJob({side:q.s,ru:q.ru,P:q.P,pp:mkPP(q.P),thin:q.thin,w:q.w,nf:q.st=='g'}));OPS.forEach((op,i)=>op.st=o.O[i].st);FL2=[];UNDO=0}
-else{Rg=url2arr(a);Bg=url2arr(b);{const gi=o.GG&&await im(o.GG);Gg=gi?url2arr(gi):new Uint8Array(N)}baseSnap();OPS=[]}
+if(o.O){initRasters();baseImg=null;OPS=[];o.O.forEach(q=>applyJob({side:q.s,ru:q.ru,P:q.P,pp:mkPP(q.P),thin:q.thin,w:q.w,nf:q.st=='g'}));OPS.forEach((op,i)=>op.st=o.O[i].st);FL2=[];UNDO=0}
+else{Rg=url2arr(a);Bg=url2arr(b);{const gi=o.GG&&await im(o.GG);Gg=gi?url2arr(gi):new Uint8Array(N)}baseImg=mkBaseImg(Rg,Bg,Gg);OPS=[]}
 FLAGS=o.F||[];ARM=o.A||[];DRN=o.D||[];FX=[];LOG.length=0;LOG.push(...(o.L||[]));Object.assign(G,o.G||{ua:0,ru:0,pl:[]});if(o.t)gt=o.t;if(o.p0)p0=o.p0;jobs=[];HD=null;snap();ovd=1;DRM=null;renderEv();stats();rq();toast('Карта загружена')}
 const saveHtml=()=>`<div class="row"><button id="sf">💾 Скачать файл</button><button id="lfb">📂 Загрузить файл</button></div>`+[1,2,3].map(i=>{const d=SL(i);return `<div class="ev" style="--c:#b8cc5c;justify-content:space-between;align-items:center"><span><b>Слот ${i}</b><br><span class="etm">${d?esc(d.m):'пусто'}</span></span><span><button class="ss" data-s="${i}">Сохранить</button> <button class="sl2" data-s="${i}" ${d?'':'disabled'}>Загрузить</button></span></div>`}).join('');
 function openSheet(t){if(t!='save')return openSheet0(t);sv=t;$('sheet').hidden=0;tabs('');$('sht').textContent='Сохранения';$('shb').innerHTML=saveHtml()}
