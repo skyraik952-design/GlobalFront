@@ -1,6 +1,6 @@
 <!DOCTYPE html><html lang="ru"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Карта войны — v21</title>
+<title>Карта войны — v22</title>
 <style>
 :root{--ac:#b8cc5c;--bg:rgba(20,25,16,.96);--bg2:#1e2618;--bd:#323d27;--tx:#e9eddd;--mu:#99a584;--on:#1a2008;--ov:rgba(220,240,170,.08);--inset:#0e120a;--shd:rgba(0,5,0,.6)}
 [hidden]{display:none!important}
@@ -85,7 +85,7 @@ for(let i=0;i<n;i++){const p=ls[i].split('|');NM[i]=p[0];TP[i]=p[1];PB[i]=+p[2];
 PLDB={n:NM,t:TP,p:PB,x:PX,y:PY,N:n};LBL.bb=null;LBL.lv=-1;LBL.nf=0;rq()}catch(e){}}
 function plFromDB(x0,x1,s,n,cls){if(!PLDB)return[];const y0=-my(n),y1=-my(s),out=[];
 for(let i=0;i<PLDB.N;i++){const x=PLDB.x[i],y=PLDB.y[i];if(x<x0||x>x1||y<y0||y>y1)continue;if(cls&&!cls.includes(PLDB.t[i]))continue;out.push({n:PLDB.n[i],t:PLT[PLDB.t[i]]||'hamlet',x,y,lat:(2*Math.atan(Math.exp(-y*D))-Math.PI/2)/D,pop:PLP[PLDB.p[i]]})}return out}
-let UAp=path(UA),RUp=path(RU),CRp=null,ALL,OCL,RS,GS;const SEAS=[BL,BS,AZ,CS].map(path),OCp=path(OC),CRh=path(CR);OCL=[OCp];RUp.addPath(path(KA));
+let UAp=path(UA),RUp=path(RU),CRp=null,ALL,OCL,RS,GS,CRh=path(CR);const SEAS=[BL,BS,AZ,CS].map(path),OCp=path(OC);OCL=[OCp];RUp.addPath(path(KA));
 const mkAll=(h,g)=>{ALL=new Path2D;ALL.addPath(UAp);ALL.addPath(RUp);CRp&&ALL.addPath(CRp);RS=new Path2D;RS.addPath(RUp);h&&RS.addPath(CRh);GS=new Path2D;GS.addPath(UAp);g&&GS.addPath(CRh)};mkAll();
 const TR='#d4505a',LAND='#27352a',RED='#c8312b',BLU='#3b78c4',GRN='#2fbf6b',CYN='#35b8ff',X0=19,X1=63,S=52,yT=-my(62),yB=-my(40),W=Math.round((X1-X0)*S),H=Math.round((yB-yT)*S);
 const cv=$('c'),g0=cv.getContext('2d'),dpr=Math.min(devicePixelRatio||1,1.25),tc=mk(1,1).getContext('2d');let g=g0;
@@ -127,7 +127,7 @@ g.save();g.setTransform(1,0,0,1,0,0);g.drawImage(GZc,0,0);g.restore()}
 g.lineJoin='round';g.lineCap='butt';g.lineWidth=1*dpr/k;g.strokeStyle='rgba(170,176,190,.35)';g.stroke(UAp);g.stroke(RUp);CRp&&g.stroke(CRp);
 g.save();g.setTransform(1,0,0,1,0,0);g.drawImage(OLC,0,0);g.restore();
 // линия фронта рисуется всегда (даже с выключенной серой зоной): тёмная подложка + светлый штрих
-if(FRp&&!jobs.length){g.lineCap='round';g.lineJoin='round';g.lineWidth=2.6*dpr/k;g.strokeStyle='rgba(15,18,24,.5)';g.stroke(FRp);g.lineWidth=1.3*dpr/k;g.strokeStyle='rgba(232,235,242,.9)';g.stroke(FRp);g.lineCap='butt'}
+if(FRp&&!jobs.length){g.lineCap='round';g.lineJoin='round';g.lineWidth=3.6*dpr/k;g.strokeStyle='rgba(10,14,20,.34)';g.stroke(FRp);g.lineWidth=1.9*dpr/k;g.strokeStyle='rgba(255,255,255,.97)';g.stroke(FRp);g.lineCap='butt'}
 bdr&&BP&&drawB(k);
 g.setTransform(1,0,0,1,0,0);g.font=`${11*dpr}px system-ui,sans-serif`;g.textAlign='center';g.lineJoin='round';g.lineWidth=3*dpr;g.strokeStyle='rgba(0,0,0,.7)';
 lab&&LBL.items.length&&drawL(w,h,k);(!lab||!LBL.items.length)&&LB.forEach(([t,x,y,f])=>{const sx=(x-v.x)*k+w/2,sy=(-my(y)-v.y)*k+h/2;if(sx<0||sy<0||sx>w||sy>h)return;if(t!='Киев'&&t!='Москва')return;
@@ -155,10 +155,10 @@ showTr&&j.un.forEach(u=>{const qf=fq(j,(u.s+1)/2);if(u.hold&&u.hf>qf)return;cons
 showTr&&j.dn.forEach(u=>{if(u.hf<=fq(j,(u.s+1)/2))return;const a=j.s0+u.hf*(j.s1-j.s0),b=(j.l0+j.l1)/2+u.s*(j.l1-j.l0)/2,[sx,sy]=toS(A(j,a,b));g.save();g.setTransform(1,0,0,1,0,0);g.globalAlpha=.8;badge(sx,sy,6.5*dpr,en,0,1);g.restore()});ARR(j,A,toS,now);g.restore()});
 // предпросмотр: что закрасится внутри обведённого контура (полупрозрачно)
 if(pts.length>2){const pp=new Path2D;pts.forEach(([x,y],i)=>i?pp.lineTo(x,y):pp.moveTo(x,y));pp.closePath();
-if(side=='ua'){if(!DRM)DRM=redGrid([v.x-w/2/k,v.y-h/2/k,v.x+w/2/k,v.y+h/2/k]);if(PVC.width!=DRM.w||PVC.height!=DRM.h){PVC.width=DRM.w;PVC.height=DRM.h}const pc=PVC,x2=pc.getContext('2d');x2.setTransform(1,0,0,1,0,0);x2.globalCompositeOperation='source-over';x2.clearRect(0,0,DRM.w,DRM.h);x2.setTransform(DRM.sc,0,0,DRM.sc,-DRM.x0*DRM.sc,-DRM.y0*DRM.sc);x2.fillStyle='rgba(47,191,107,.42)';(inRU?[ALL]:[UAp,CRh]).forEach(q=>{x2.save();x2.clip(q,'evenodd');x2.fill(pp);x2.restore()});x2.setTransform(1,0,0,1,0,0);x2.globalCompositeOperation='destination-in';x2.drawImage(DRM.cv,0,0);g.drawImage(pc,DRM.x0,DRM.y0,DRM.w/DRM.sc,DRM.h/DRM.sc)}
+if(side=='ua'){if(!DRM)DRM=redGrid([v.x-w/2/k,v.y-h/2/k,v.x+w/2/k,v.y+h/2/k]);if(PVC.width!=DRM.w||PVC.height!=DRM.h){PVC.width=DRM.w;PVC.height=DRM.h}const pc=PVC,x2=pc.getContext('2d');x2.setTransform(1,0,0,1,0,0);x2.globalCompositeOperation='source-over';x2.clearRect(0,0,DRM.w,DRM.h);x2.setTransform(DRM.sc,0,0,DRM.sc,-DRM.x0*DRM.sc,-DRM.y0*DRM.sc);x2.fillStyle=NF?'rgba(47,191,107,.42)':'rgba(53,184,255,.42)';(inRU?[ALL]:[UAp,CRh]).forEach(q=>{x2.save();x2.clip(q,'evenodd');x2.fill(pp);x2.restore()});x2.setTransform(1,0,0,1,0,0);x2.globalCompositeOperation='destination-in';x2.drawImage(DRM.cv,0,0);g.drawImage(pc,DRM.x0,DRM.y0,DRM.w/DRM.sc,DRM.h/DRM.sc)}
 else{g.save();g.clip(ALL,'evenodd');g.fillStyle='rgba(215,45,50,.34)';g.fill(pp);g.restore()}
-g.lineWidth=2*dpr/k;g.lineCap='round';g.lineJoin='round';g.strokeStyle=side=='ua'?'rgba(80,220,130,.95)':'rgba(236,72,72,.95)';g.setLineDash([7*dpr/k,5*dpr/k]);g.stroke(pp);g.setLineDash([]);g.lineCap='butt'}
-else if(pts.length>1){g.beginPath();pts.forEach(([x,y],i)=>i?g.lineTo(x,y):g.moveTo(x,y));g.lineWidth=2*dpr/k;g.lineCap='round';g.lineJoin='round';g.strokeStyle=side=='ua'?'rgba(80,220,130,.95)':'rgba(236,72,72,.95)';g.setLineDash([7*dpr/k,5*dpr/k]);g.stroke();g.setLineDash([]);g.lineCap='butt'}
+g.lineWidth=2*dpr/k;g.lineCap='round';g.lineJoin='round';g.strokeStyle=side=='ua'?(NF?'rgba(80,220,130,.95)':'rgba(96,200,255,.98)'):'rgba(236,72,72,.95)';g.setLineDash([7*dpr/k,5*dpr/k]);g.stroke(pp);g.setLineDash([]);g.lineCap='butt'}
+else if(pts.length>1){g.beginPath();pts.forEach(([x,y],i)=>i?g.lineTo(x,y):g.moveTo(x,y));g.lineWidth=2*dpr/k;g.lineCap='round';g.lineJoin='round';g.strokeStyle=side=='ua'?(NF?'rgba(80,220,130,.95)':'rgba(96,200,255,.98)'):'rgba(236,72,72,.95)';g.setLineDash([7*dpr/k,5*dpr/k]);g.stroke();g.setLineDash([]);g.lineCap='butt'}
 FLAGS.forEach(f=>{const sx=(f.x-v.x)*k+w/2,sy=(f.y-v.y)*k+h/2;if(sx<-30||sy<-40||sx>w+30||sy>h+10)return;const d=dpr,HH=26*d,fw=21*d,fh=14*d,cl=f.s=='ua'?['#0057b7','#ffd700']:['#fff','#0039a6','#d52b1e'];
 g.save();g.setTransform(1,0,0,1,0,0);const pq=Math.min(1,(now-(f.t0||-1e9))/550),ps=pq<1?.2+.8*pq+Math.sin(pq*Math.PI)*.3:1;g.globalAlpha=pq;g.translate(sx,sy+(1-pq)*-34*d);g.scale(ps,ps);g.translate(-sx,-sy);g.lineWidth=1.8*d;g.strokeStyle='#eee';g.beginPath();g.moveTo(sx,sy);g.lineTo(sx,sy-HH);g.stroke();
 g.save();const wv=Math.sin(now/320+f.x*50);g.translate(sx,sy-HH);g.transform(.95+.05*wv,.087*wv,0,1,0,0);g.translate(-sx,-(sy-HH));
@@ -246,7 +246,10 @@ const f=tr.tree.map(t=>t.path).filter(n=>/^deepstatemap_data_.*\.geojson$/.test(
 return{f,j:await(await fetch(`https://raw.githubusercontent.com/cyterat/deepstate-map-data/${br}/data/${f}`)).json()}}catch(e){}}return null}
 async function load(){const msg=[],pt=(x,y)=>[x,-my(y)],inP=(p,[x,y])=>tc.isPointInPath(p,x,y,'evenodd');
 try{if(typeof topojson=='undefined')throw 0;const t=await(await fetch('https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/countries-50m.json')).json(),fs=topojson.feature(t,t.objects.countries).features,gp=n=>fs.find(f=>f.properties.name==n).geometry,a=new Path2D,b=new Path2D;
-gj(gp('Ukraine'),a);gj(gp('Russia'),b);UAp=a;RUp=b;msg.push('границы: Natural Earth')}catch(e){msg.push('границы приблизительные')}
+gj(gp('Ukraine'),a);gj(gp('Russia'),b);UAp=a;RUp=b;
+// Крым: вместо грубого самодельного контура берём настоящий берег Крыма из тех же данных Natural Earth (тот же, по которому режется красная заливка)
+try{let crp=null;for(const nm of['Russia','Ukraine']){const gm=gp(nm),pl=gm.type=='MultiPolygon'?gm.coordinates:[gm.coordinates];for(const c of pl){const pp=new Path2D;poly(c,pp);if(inP(pp,pt(34.1,45)))crp=pp;if(crp)break}if(crp)break}if(crp)CRh=crp}catch(e){}
+msg.push('границы: Natural Earth')}catch(e){msg.push('границы приблизительные')}
 try{const r=await front();if(!r)throw 0;const p=new Path2D;gj(r.j,p);OCL=[p];
 if(!inP(p,pt(34,45))||!inP(p,pt(37.8,48)))OCL.push(OCp);
 const d=(r.f.match(/(\d{4})-?(\d{2})-?(\d{2})/)||[]).slice(1).join('-');msg.push('фронт: DeepState '+d)}catch(e){msg.push('фронт приблизительный (нет доступа к DeepState)')}
@@ -509,16 +512,16 @@ const r=cx(TMc,w,h);r.drawImage(LBC,0,0);r.globalCompositeOperation='destination
 const gr=cx(UMc,w,h);gr.drawImage(TMc,0,0);gr.globalCompositeOperation='destination-in';gr.drawImage(GMc,0,0);gr.globalCompositeOperation='source-in';gr.fillStyle=EGRN;gr.fillRect(0,0,w,h);
 r.globalCompositeOperation='source-in';r.fillStyle=EBLU;r.fillRect(0,0,w,h);r.globalCompositeOperation='source-over';r.drawImage(UMc,0,0);
 r.clearRect(0,0,w,t+1);r.clearRect(0,h-t-1,w,t+1);r.clearRect(0,0,t+1,h);r.clearRect(w-t-1,0,t+1,h);o.drawImage(TMc,0,0)}}
-function frontStale(){if(!FRC.k)return 1;const k=v.k;if(Math.abs(Math.log(k/FRC.k))>Math.log(1.35))return 1;
+function frontStale(){if(!FRC.k)return 1;const k=v.k;if(Math.abs(Math.log(k/FRC.k))>Math.log(1.25))return 1;
 const w=cv.width,h=cv.height,x0=v.x-w/2/k,x1=v.x+w/2/k,y0=v.y-h/2/k,y1=v.y+h/2/k,mx=(FRC.x1-FRC.x0)*.12,mz=(FRC.y1-FRC.y0)*.12;
 return x0<FRC.x0+mx||x1>FRC.x1-mx||y0<FRC.y0+mz||y1>FRC.y1-mz}
 // Линия фронта: marching squares по векторной маске в разрешении экрана — повторяет росчерок с точностью до пикселя
 function buildFront(){const w=cv.width,h=cv.height,k=v.k;
-let x0=v.x-w/2/k,x1=v.x+w/2/k,y0=v.y-h/2/k,y1=v.y+h/2/k;const ex=(x1-x0)*.7,ey=(y1-y0)*.7;x0-=ex;x1+=ex;y0-=ey;y1+=ey;
+let x0=v.x-w/2/k,x1=v.x+w/2/k,y0=v.y-h/2/k,y1=v.y+h/2/k;const ex=(x1-x0)*.5,ey=(y1-y0)*.5;x0-=ex;x1+=ex;y0-=ey;y1+=ey;
 FRC.k=k;FRC.x0=x0;FRC.y0=y0;FRC.x1=x1;FRC.y1=y1;FRD=0;
 const cx0=Math.max(x0,20.5),cx1=Math.min(x1,43),cy0=Math.max(y0,-my(54.2)),cy1=Math.min(y1,-my(42.8));
 if(cx1<=cx0||cy1<=cy0){FRp=null;bv++;return}
-const sc=Math.min(k,1600/(cx1-cx0),1600/(cy1-cy0)),cw=Math.max(2,Math.ceil((cx1-cx0)*sc)),ch=Math.max(2,Math.ceil((cy1-cy0)*sc));
+const sc=Math.min(k,4096/(cx1-cx0),4096/(cy1-cy0),Math.sqrt(6.5e6/((cx1-cx0)*(cy1-cy0)))),cw=Math.max(2,Math.ceil((cx1-cx0)*sc)),ch=Math.max(2,Math.ceil((cy1-cy0)*sc));
 FRC.cv.width=cw;FRC.cv.height=ch;const x=FRC.cv.getContext('2d');x.setTransform(sc,0,0,sc,-cx0*sc,-cy0*sc);
 paintRedMask(x);const d=x.getImageData(0,0,cw,ch).data;FRp=extrFront(d,cw,ch,cx0,cy0,sc);bv++}
 function extrFront(d,cw,ch,x0,y0,sc){const P2=cw+2,H2=ch+2,N2=P2*H2,F=new Uint8Array(N2);
